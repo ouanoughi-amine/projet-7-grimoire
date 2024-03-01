@@ -1,0 +1,1 @@
+Développement du backend d’un site de notation de livres utilisant MongoDB, Express et Nodejs. Utilisation de mongoose pour créer des modèles de données utilisateur et des livres. Mise en place d’un système d’authentification des utilisateurs, possibilité d’ajouter un livre et de le noter
