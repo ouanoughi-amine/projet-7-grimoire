@@ -12,7 +12,10 @@ const path = require('path');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 
-const uri ='mongodb+srv://ouanoughiamine1995:Mongodb2024@cluster0.uq3tici.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+require('dotenv').config();
+
+
+const uri = 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASSWORD+'@cluster0.uq3tici.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 
 mongoose.connect(uri, {
   useNewUrlParser: true, 
@@ -36,14 +39,7 @@ app.use(
 // Middleware pour gérer les requêtes CORS
 app.use(cors());
 
-// Middleware pour gérer les en-têtes CORS
-app.use((req, res, next) => {
-      res.setHeader('Access-Control-Allow-Origin', '*');
-      res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-      next();
-    });
-// Middleware pour analyser le corps JSON des requêtes
+
 app.use(express.json());
 
 // On vient utiliser mongoSanitize après avoir parsé notre requête
