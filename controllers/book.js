@@ -1,14 +1,12 @@
 const Book = require('../models/Book');
 const fs = require('fs');
 
-
 // Récupérer tout les livres
 exports.getAllBooks = (req, res, next) => {
     Book.find()
         .then(books => res.status(200).json(books))
         .catch(error => res.status(400).json({message : "Erreur dans l'affichage des livres", error : error.message}));  
 };
-
 // Créer un livre
 exports.createBook = (req, res, next) => {
     const bookObject = JSON.parse(req.body.book);
@@ -33,10 +31,7 @@ const book = new Book({
   Book.findOne({ _id : req.params.id})
   .then(book => res.status(200).json(book))
   .catch(error => res.status(404).json({ error}));
-
  };
-
-
 
 //fonction qui  modifie un livre dans la base de données
 exports.modifyOneBook = (req, res, next) => {
@@ -45,12 +40,10 @@ exports.modifyOneBook = (req, res, next) => {
       ...JSON.parse(req.body.book),
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   } : { ...req.body };
-
-  // Supprime le champ _userId de l'objet bookObject avant de le modifier dans la base de données
-  delete bookObject._userId;
-
-  // Recherche le livre par son identifiant
-  Book.findOne({ _id: req.params.id })
+// Supprime le champ _userId de l'objet bookObject avant de le modifier dans la base de données
+      delete bookObject._userId;
+// Recherche le livre par son identifiant
+    Book.findOne({ _id: req.params.id })
       .then((book) => {
           // Vérifie si l'utilisateur est autorisé à modifier ce livre
           if (book.userId != req.auth.userId) {
@@ -64,9 +57,8 @@ exports.modifyOneBook = (req, res, next) => {
           }
       })
       .catch((error) => {
-       
           res.status(400).json({ error });
-      });
+    });
 };
 
 // Cette fonction supprime un livre de la base de données
@@ -95,8 +87,7 @@ exports.deleteOneBook = (req, res, next) =>{
     });
 };
 
-
-
+// Cette fonction permet de noter  un livre 
 exports.createRating = (req, res, next) => {
 	Book.findOne({ _id: req.params.id })
 		.then(book => {
@@ -135,7 +126,7 @@ exports.createRating = (req, res, next) => {
 			return res.status(500).json({ error });
 		});
 };
-
+// Cette fonction permet d'avoir les 3 livres les mieux notés  
 exports.getBestRating = (req, res, next) => {
   // On vient utiliser la méthode sort avec la clé que l'on veut sort
   // + "-1" pour spécifier que c'est par ordre décroissant

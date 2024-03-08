@@ -7,8 +7,7 @@ const cors = require('cors');
 const path = require('path');
 
 // Import des packages qui vont nous servir à sécuriser l'app et la BDD
-// Helmet sécurise les headers et mongoSanitize vient supprimer
-// les requêtes malveillantes
+// Helmet sécurise les headers et mongoSanitize vient supprimer les requêtes malveillantes
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 
@@ -17,10 +16,7 @@ require('dotenv').config();
 
 const uri = 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASSWORD+'@cluster0.uq3tici.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 
-mongoose.connect(uri, {
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
-})
+mongoose.connect(uri)
 .then(() => console.log('Connexion à MongoDB réussie !'))
 .catch(() => console.log('Connexion à MongoDB échouée !'));
 

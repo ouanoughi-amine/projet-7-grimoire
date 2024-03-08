@@ -2,7 +2,9 @@ const bcrypt = require ('bcrypt');
 const User = require ('../models/User');
 const jwt = require('jsonwebtoken');
 
+// fonction qui permet de s'inscrire
 exports.signup = (req, res, next) => {
+   // Hachage du mot de passe avant de l'enregistrer dans la base de données
     bcrypt.hash(req.body.password, 10)
       .then(hash => {
         const user = new User({
@@ -15,14 +17,14 @@ exports.signup = (req, res, next) => {
       })
       .catch(error => res.status(500).json({ error }));
   };
-
- 
+//  fonction qui permet de se connecter
   exports.login = (req, res, next) => {
     User.findOne({ email: req.body.email })
         .then(user => {
             if (!user) {
                 return res.status(401).json({ message: 'Paire login/mot de passe incorrecte'});
             }
+             // Comparaison du mot de passe fourni avec le mot de passe haché enregistré
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     if (!valid) {
